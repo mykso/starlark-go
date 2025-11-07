@@ -21,6 +21,7 @@ type Mode uint
 
 const (
 	RetainComments Mode = 1 << iota // retain comments in AST; see Node.Comments
+	BlockScanner   Mode = 1 << iota // use if/end syntax instead of indent
 )
 
 // Parse calls the Parse method of LegacyFileOptions().
@@ -43,7 +44,11 @@ func (opts *FileOptions) Parse(filename string, src any, mode Mode) (f *File, er
 	if err != nil {
 		return nil, err
 	}
-	p := parser{options: opts, in: newBlockScanner(in)}
+	var inScanner scannerInterface = in
+	if (mode & BlockScanner) == BlockScanner {
+		inScanner = newBlockScanner(in)
+	}
+	p := parser{options: opts, in: inScanner}
 	defer p.in.recover(&err)
 
 	p.nextToken() // read first lookahead token
@@ -137,7 +142,7 @@ func (opts *FileOptions) ParseExpr(filename string, src any, mode Mode) (expr Ex
 
 type parser struct {
 	options *FileOptions
-	in      *blockScanner
+	in      scannerInterface
 	tok     Token
 	tokval  tokenValue
 }
