@@ -290,9 +290,9 @@ func TestCompoundStmt(t *testing.T) {
 		{"f(\n\n\n\n\n\n\n)\n",
 			`(ExprStmt X=(CallExpr Fn=f))`},
 		// complex statements
-		{"def f():\n  pass\n\n",
+		{"def f():\n  pass\nend\n\n",
 			`(DefStmt Name=f Body=((BranchStmt Token=pass)))`},
-		{"if cond:\n  pass\n\n",
+		{"if cond:\n  pass\nend\n\n",
 			`(IfStmt Cond=cond True=((BranchStmt Token=pass)))`},
 		// Even as a 1-liner, the following blank line is required.
 		{"if cond: pass\n\n",
