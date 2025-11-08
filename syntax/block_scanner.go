@@ -106,9 +106,6 @@ func (s *blockScanner) nextTokenInner() blockScannerToken {
 	case INDENT, OUTDENT:
 		return s.nextTokenInner()
 
-	case PASS:
-		s.errorf(s.getPos(), "use of reserved keyword 'pass' is not allowed")
-
 	// 'end' is identifier
 	case IDENT:
 		if currToken.val.raw == "end" {
