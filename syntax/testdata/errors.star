@@ -4,7 +4,7 @@
 # TODO(adonovan): lots more tests.
 
 x = 1 + ### "got newline, want primary expression"
-2 
+2
 
 ---
 
@@ -35,7 +35,7 @@ def f(**kwargs, *args, b=1, a, **kwargs, *args, b=1, a):
 
 ---
 
-def pass(): ### "not an identifier"
+def pass(): ### `use of reserved keyword 'pass' is not allowed \(expected identifier\)`
   pass
 
 ---
@@ -164,18 +164,18 @@ load = 1 ### `got '=', want '\('`
 f(load()) ### `got load, want primary`
 ---
 # 'load' is not an identifier
-def load(): ### `not an identifier`
+def load(): ### `use of reserved keyword 'load' is not allowed \(expected identifier\)`
   pass
 ---
 # 'load' is not an identifier
-def f(load): ### `not an identifier`
+def f(load): ### `use of reserved keyword 'load' is not allowed \(expected identifier\)`
   pass
 ---
 # A load statement allows a trailing comma.
 load("module", "x",)
 ---
 x = 1 + ### "got newline, want primary expression"
-2 
+2
 ---
 def f():
     pass
